@@ -9,3 +9,5 @@ To install:
  3. Create a folder called "FCMS".
  4. Copy the "load.py" file to that folder.
  5. Restart EDMC.
+
+Note there is a bug in https://fleetcarrier.space where some commander names have a "CMDR" prefix. If so, modify line 176 in the "journal_entry" method to manually prepend "CMDR ".
