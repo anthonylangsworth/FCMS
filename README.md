@@ -1,7 +1,7 @@
 # FCMS
 Fleet Carrier MS plug-in
 
-This is based off the Fuel Rats EDMC plug-in, given my inability to find their git repo. 
+This is based off the Fuel Rats EDMC plug-in, given my inability to find their git repo. I am not the author of most of this. I merely added some additional debugging code.
 
 To install:
  1. Shut down EDMC.
