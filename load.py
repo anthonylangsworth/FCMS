@@ -144,6 +144,9 @@ def prefs_changed(cmdr, is_beta):
         config.set("fcms_apikeys", apikeys)
 
 
+# See https://github.com/FuelRats/FCMS/blob/master/FCMS/views/api.py for server side of call.
+# See https://www.w3schools.com/python/ref_requests_response.asp for response help
+
 def journal_entry(cmdr, is_beta, system, station, entry, state):
     if entry["event"] in ["CarrierJumpRequest", "CarrierJumpCancelled"] and not is_beta:
         cred = credentials(cmdr)
