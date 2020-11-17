@@ -153,7 +153,7 @@ def journal_entry(cmdr, is_beta, system, station, entry, state):
         if cred:
             this.status["text"] = "Sending %s..." % entry["event"][11:]
             post = {
-                "cmdr": "foo", #cmdr,
+                "cmdr": cmdr,
                 "system": system,
                 "station": station,
                 "data": entry,
@@ -165,7 +165,7 @@ def journal_entry(cmdr, is_beta, system, station, entry, state):
             if response.status_code == 200:
                 this.status["text"] = "Success"
             else:
-                this.status["text"] = "Failed: " + str(response.status_code) + " (" + r.json().detail + ")"
+                this.status["text"] = "Failed: " + str(response.status_code) + " (" + response.text + ")"
         else:
             this.status["text"] = "No credentials"
     elif entry["event"] in ("LoadGame", "NewCommander") and not credentials(cmdr):
