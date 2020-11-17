@@ -153,7 +153,7 @@ def journal_entry(cmdr, is_beta, system, station, entry, state):
         if cred:
             this.status["text"] = "Sending %s..." % entry["event"][11:]
             post = {
-                "cmdr": cmdr,
+                "cmdr": cmdr, # "CMDR " + cmdr,
                 "system": system,
                 "station": station,
                 "data": entry,
