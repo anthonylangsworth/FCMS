@@ -59,25 +59,28 @@ def plugin_prefs(parent, cmdr, is_beta):
     nb.Label(frame).grid(sticky=tk.W)   # spacer
 
     this.cred_frame = nb.Frame(frame)   # credentials frame
-    this.cred_frame.grid(columnspan=2, sticky=tk.EW)
+    this.cred_frame.grid(columnspan=3, sticky=tk.EW)
     this.cred_frame.columnconfigure(1, weight=1)
 
     HyperlinkLabel(
         this.cred_frame, text="FCMS credentials", background=nb.Label().cget("background"),
         url=this.apikey_url, underline=True
-    ).grid(row=1, columnspan=2, padx=PADX, sticky=tk.W)
+    ).grid(row=1, columnspan=3, padx=PADX, sticky=tk.W)
 
     nb.Label(this.cred_frame, text=_("Cmdr")).grid(row=10, padx=PADX, sticky=tk.W)
     this.cmdr_text = nb.Label(this.cred_frame)
-    this.cmdr_text.grid(row=10, column=1, padx=PADX, pady=PADY, sticky=tk.W)
+    this.cmdr_text.grid(row=10, column=1, columnspan=2, padx=PADX, pady=PADY, sticky=tk.W)
+
+    this.add_cmdr_prefix = nb.Checkbutton(this.cred_frame, text="Add CMDR Prefix")
+    this.add_cmdr_prefix.grid(row=10, column=2, padx=PADX, pady=PADY, sticky=tk.W)
 
     nb.Label(this.cred_frame, text="Email").grid(row=11, padx=PADX, sticky=tk.W)
     this.email = nb.Entry(this.cred_frame)
-    this.email.grid(row=11, column=1, padx=PADX, pady=PADY, sticky=tk.EW)
+    this.email.grid(row=11, column=1, columnspan=2, padx=PADX, pady=PADY, sticky=tk.EW)
 
     nb.Label(this.cred_frame, text="API Key").grid(row=12, padx=PADX, sticky=tk.W)
     this.apikey = nb.Entry(this.cred_frame)
-    this.apikey.grid(row=12, column=1, padx=PADX, pady=PADY, sticky=tk.EW)
+    this.apikey.grid(row=12, column=1, columnspan=2, padx=PADX, pady=PADY, sticky=tk.EW)
 
     prefs_cmdr_changed(cmdr, is_beta)
 
@@ -102,9 +105,10 @@ def credentials(cmdr):
             config.set("fcms_cmdrs", cmdrs)
         emails = config.get("fcms_emails")
         apikeys = config.get("fcms_apikeys")
+        addCmdrPrefixValue = config.get("fcms_addCMDRPrefix") or False
         if cmdr in cmdrs and emails and apikeys:
             idx = cmdrs.index(cmdr)
-            return (emails[idx], apikeys[idx])
+            return (emails[idx], apikeys[idx], addCmdrPrefixValue)
     return None
 
 
@@ -113,11 +117,12 @@ def prefs_cmdr_changed(cmdr, is_beta):
     this.email.delete(0, tk.END)
     this.apikey.delete(0, tk.END)
     if cmdr:
-        this.cmdr_text["text"] = cmdr + (is_beta and " [Beta]" or "")
         cred = credentials(cmdr)
+        this.cmdr_text["text"] = get_cmdr_text(cmdr, cred[2]) + (is_beta and " [Beta]" or "")
         if cred:
             this.email.insert(0, cred[0])
             this.apikey.insert(0, cred[1])
+            this.add_cmdr_prefix.value = cred[2]
     else:
         this.cmdr_text["text"] = _("None")
 
@@ -142,6 +147,7 @@ def prefs_changed(cmdr, is_beta):
             apikeys.append(this.apikey.get().strip())
         config.set("fcms_emails", emails)
         config.set("fcms_apikeys", apikeys)
+        config.set("fcms_addCMDRPrefix", this.add_cmdr_prefix_value)
 
 
 # See https://github.com/FuelRats/FCMS/blob/master/FCMS/views/api.py for server side of call.
@@ -153,7 +159,7 @@ def journal_entry(cmdr, is_beta, system, station, entry, state):
         if cred:
             this.status["text"] = "Sending %s..." % entry["event"][11:]
             post = {
-                "cmdr": cmdr, # "CMDR " + cmdr,
+                "cmdr": get_cmdr_text(cmdr, cred[2]),
                 "system": system,
                 "station": station,
                 "data": entry,
@@ -174,3 +180,7 @@ def journal_entry(cmdr, is_beta, system, station, entry, state):
          entry["event"] == "Music" and entry["MusicTrack"] in ("MainMenu", "CQC", "CQCMenu")
     ):
         this.status["text"] = "v%s - Ready" % this.version
+
+def get_cmdr_text(cmdr, addCMDRPrefix):
+  return cmdr if not addCMDRPrefix else "CMDR " + cmdr
+  
