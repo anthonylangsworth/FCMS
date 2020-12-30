@@ -1,5 +1,6 @@
 import sys
 import requests
+import os
 try:
     # Python 2
     import Tkinter as tk
@@ -8,8 +9,9 @@ except ModuleNotFoundError:
     import tkinter as tk
 
 import myNotebook as nb
-from config import config
+from config import config, appname
 from ttkHyperlinkLabel import HyperlinkLabel
+import logging
 
 this = sys.modules[__name__]
 this.plugin_name = "FCMS"
@@ -19,8 +21,26 @@ this.version_info = (0, 2, 0)
 this.version = ".".join(map(str, this.version_info))
 this.api_url = "https://fleetcarrier.space/api"
 
+# A Logger is used per 'found' plugin to make it easy to include the plugin's
+# folder name in the logging output format.
+# NB: plugin_name here *must* be the plugin's folder name as per the preceding
+#     code, else the logger won't be properly set up.
+logger = logging.getLogger(f'{appname}.{os.path.basename(os.path.dirname(__file__))}')
 
-def plugin_start(plugin_dir):
+# If the Logger has handlers then it was already set up by the core code, else
+# it needs setting up here.
+if not logger.hasHandlers():
+    level = logging.INFO  # So logger.info(...) is equivalent to print()
+
+    logger.setLevel(level)
+    logger_channel = logging.StreamHandler()
+    logger_formatter = logging.Formatter(f'%(asctime)s - %(name)s - %(levelname)s - %(module)s:%(lineno)d:%(funcName)s: %(message)s')
+    logger_formatter.default_time_format = '%Y-%m-%d %H:%M:%S'
+    logger_formatter.default_msec_format = '%s.%03d'
+    logger_channel.setFormatter(logger_formatter)
+    logger.addHandler(logger_channel)
+
+def plugin_start(plugin_dir: str):
     # Migrate from single setting
     if not config.get("fcms_cmdrs"):
         if config.get("FCMSEmail"):
@@ -32,17 +52,15 @@ def plugin_start(plugin_dir):
     return this.plugin_name
 
 
-def plugin_start3(plugin_dir):
+def plugin_start3(plugin_dir: str):
     return plugin_start(plugin_dir)
 
 
-def plugin_app(parent):
-    label = tk.Label(parent, text="%s:" % this.plugin_name)
-    this.status = tk.Label(parent, text="v%s - Ready" % this.version, anchor=tk.W)
-    return label, this.status
+def plugin_app(parent: nb.Notebook):
+    pass
 
 
-def plugin_prefs(parent, cmdr, is_beta):
+def plugin_prefs(parent: nb.Notebook, cmdr: str, is_beta: bool):
 
     PADX = 10
     PADY = 2
@@ -71,9 +89,9 @@ def plugin_prefs(parent, cmdr, is_beta):
     this.cmdr_text = nb.Label(this.cred_frame)
     this.cmdr_text.grid(row=10, column=1, columnspan=2, padx=PADX, pady=PADY, sticky=tk.W)
 
-    this.add_cmdr_prefix = nb.Checkbutton(this.cred_frame, text="Add CMDR Prefix")
+    this.add_cmdr_prefix = nb.Checkbutton(this.cred_frame, text="Add CMDR Prefix", command=add_cmdr_prefix_changed)
     this.add_cmdr_prefix.grid(row=10, column=2, padx=PADX, pady=PADY, sticky=tk.W)
-
+    
     nb.Label(this.cred_frame, text="Email").grid(row=11, padx=PADX, sticky=tk.W)
     this.email = nb.Entry(this.cred_frame)
     this.email.grid(row=11, column=1, columnspan=2, padx=PADX, pady=PADY, sticky=tk.EW)
@@ -86,6 +104,9 @@ def plugin_prefs(parent, cmdr, is_beta):
 
     return frame
 
+def add_cmdr_prefix_changed():
+    logger.info("add_cmdr_prefix_changed called")
+    # this.cmdr_text["text"] = get_cmdr_text(cmdr, this.add_cmdr_prefix.value)
 
 def set_state_frame_childs(frame, state):
     for child in frame.winfo_children():
@@ -108,6 +129,7 @@ def credentials(cmdr):
         addCmdrPrefixValue = config.get("fcms_addCMDRPrefix") or False
         if cmdr in cmdrs and emails and apikeys:
             idx = cmdrs.index(cmdr)
+            logger.info(f"Loaded CMDR '{cmdr}' at index {idx} with email '{emails[idx]}', add prefix '{addCmdrPrefixValue}'")
             return (emails[idx], apikeys[idx], addCmdrPrefixValue)
     return None
 
@@ -181,6 +203,6 @@ def journal_entry(cmdr, is_beta, system, station, entry, state):
     ):
         this.status["text"] = "v%s - Ready" % this.version
 
-def get_cmdr_text(cmdr, addCMDRPrefix):
+def get_cmdr_text(cmdr: str, addCMDRPrefix: bool):
   return cmdr if not addCMDRPrefix else "CMDR " + cmdr
   
