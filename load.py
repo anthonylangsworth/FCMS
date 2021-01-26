@@ -163,6 +163,7 @@ def journal_entry(cmdr, is_beta, system, station, entry, state):
                 logger.info(f"{ entry['event']} event posted to FCMS")
             else:
                 logger.info(f"{ entry['event']} event posting to FCMS failed: { str(response.status_code) }")
+                # TODO: Consider prepending CMDR and retrying
         else:
             logger.error("No credentials")
     elif entry["event"] in ("LoadGame", "NewCommander") and not credentials(cmdr):
