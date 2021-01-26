@@ -69,11 +69,11 @@ def plugin_prefs(parent, cmdr, is_beta):
     this.cmdr_text = nb.Label(this.cred_frame)
     this.cmdr_text.grid(row=10, column=1, padx=PADX, pady=PADY, sticky=tk.W)
 
-    nb.Label(this.cred_frame, text="Email").grid(row=11, padx=PADX, sticky=tk.W)
+    nb.Label(this.cred_frame, text=_("Email")).grid(row=11, padx=PADX, sticky=tk.W)
     this.email = nb.Entry(this.cred_frame)
     this.email.grid(row=11, column=1, padx=PADX, pady=PADY, sticky=tk.EW)
 
-    nb.Label(this.cred_frame, text="API Key").grid(row=12, padx=PADX, sticky=tk.W)
+    nb.Label(this.cred_frame, text=_("API Key")).grid(row=12, padx=PADX, sticky=tk.W)
     this.apikey = nb.Entry(this.cred_frame)
     this.apikey.grid(row=12, column=1, padx=PADX, pady=PADY, sticky=tk.EW)
 
