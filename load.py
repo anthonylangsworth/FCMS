@@ -1,14 +1,11 @@
 import sys
 import requests
-try:
-    # Python 2
-    import Tkinter as tk
-except ModuleNotFoundError:
-    # Python 3
-    import tkinter as tk
+import logging
+import tkinter as tk
+import os
 
 import myNotebook as nb
-from config import config
+from config import config, appname
 from ttkHyperlinkLabel import HyperlinkLabel
 
 this = sys.modules[__name__]
@@ -18,6 +15,9 @@ this.apikey_url = "https://fleetcarrier.space/my_carrier"
 this.version_info = (0, 2, 0)
 this.version = ".".join(map(str, this.version_info))
 this.api_url = "https://fleetcarrier.space/api"
+
+# Setup logging
+logger = logging.getLogger(f'{appname}.{os.path.basename(os.path.dirname(__file__))}')
 
 
 def plugin_start(plugin_dir):
@@ -37,9 +37,7 @@ def plugin_start3(plugin_dir):
 
 
 def plugin_app(parent):
-    label = tk.Label(parent, text="%s:" % this.plugin_name)
-    this.status = tk.Label(parent, text="v%s - Ready" % this.version, anchor=tk.W)
-    return label, this.status
+    return None
 
 
 def plugin_prefs(parent, cmdr, is_beta):
@@ -151,7 +149,6 @@ def journal_entry(cmdr, is_beta, system, station, entry, state):
     if entry["event"] in ["CarrierJumpRequest", "CarrierJumpCancelled"] and not is_beta:
         cred = credentials(cmdr)
         if cred:
-            this.status["text"] = "Sending %s..." % entry["event"][11:]
             post = {
                 "cmdr": cmdr, # "CMDR " + cmdr,
                 "system": system,
@@ -163,14 +160,10 @@ def journal_entry(cmdr, is_beta, system, station, entry, state):
             }
             response = requests.post(this.api_url, json=post)
             if response.status_code == 200:
-                this.status["text"] = "Success"
+                logger.info(f"{ entry['event']} event posted to FCMS")
             else:
-                this.status["text"] = "Failed: " + str(response.status_code) + " (" + response.text + ")"
+                logger.info(f"{ entry['event']} event posting to FCMS failed: { str(response.status_code) }")
         else:
-            this.status["text"] = "No credentials"
+            logger.error("No credentials")
     elif entry["event"] in ("LoadGame", "NewCommander") and not credentials(cmdr):
-        this.status["text"] = "No credentials"
-    elif entry["event"] == "Shutdown" or (
-         entry["event"] == "Music" and entry["MusicTrack"] in ("MainMenu", "CQC", "CQCMenu")
-    ):
-        this.status["text"] = "v%s - Ready" % this.version
+        logger.error("No credentials")
