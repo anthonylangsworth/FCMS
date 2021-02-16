@@ -1,6 +1,6 @@
 # Fleet Carrier Management System (FCMS) Plug-in
 
-This is based off the Fuel Rats EDMC plug-in, given my inability to find their git repo. I am not the author of most of this. I merely added support for different commander nams and MSI installer support.
+This is based off the Fuel Rats EDMC plug-in, given my inability to find their git repo. I am not the original author. I merely added MSI installer support and decluttered the main window display.
 
 # Installation and Upgrade
 
@@ -22,6 +22,5 @@ See [LICENSE](LICENSE) for the license.
 
 # Limitations
 
-1. There is a bug in https://fleetcarrier.space where some commander names have a "CMDR" prefix. If so, modify line 156 in  the "journal_entry" method to
-manually prepend "CMDR ".
-2. The initial system for a carrier jump in the discord notification is the system the commander was in when issuing the jump order.
+1. The plug-in assumes the commander name in https://fleetcarrier.space is there in game commander name. If they differ, modify line 156 in  the "journal_entry" method to modify the commander name.
+2. The discord integration for https://fleetcarrier.space specifies the source system for a carrier jump. However, this plug-in repots the system the commander was in when issuing the jump order, not the location of the carrier.
