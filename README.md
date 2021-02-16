@@ -13,3 +13,6 @@ To install:
 Note there is a bug in https://fleetcarrier.space where some commander names
 have a "CMDR" prefix. If so, modify line 156 in the "journal_entry" method to
 manually prepend "CMDR ".
+
+TODO: Add bug concerning starting system being the system the command issues 
+the carrier command from.
