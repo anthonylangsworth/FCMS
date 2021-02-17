@@ -8,6 +8,8 @@ This is based off the Fuel Rats EDMC plug-in, given my inability to find their g
 
 Requirements:
 1. Install [Elite Dangerous Market Connector (EDMC)](https://github.com/EDCD/EDMarketConnector/wiki/Installation-&-Setup) version 4.0 or later.
+2. Create an account on https://fleetcarrier.space.
+3. Purchase a fleet carrier in **Elite: Dangerous**.
 
 To install:
 1. Download the MSI file for the latest release under the [Releases](https://github.com/anthonylangsworth/FCMS/releases) at the top right. You may get a warning saying it is potentially harmful. Please ignore these warnings.
@@ -27,6 +29,8 @@ To use:
 1. Start EDMC before you jump your fleet carrer, if not when you start playing **Elite: Dangerous**.
 2. Operate your fleet carrier as normal.
 3. The FCMS plug-in automatically updates https://fleetcarrier.space with your fleet carrier movements.
+
+This plug-in supports multiple accounts, saving different settings for each.
 
 See [LICENSE](LICENSE) for the license. There was no license included with the original source code.
 
