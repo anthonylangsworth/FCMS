@@ -20,6 +20,12 @@ To configure (only needed once):
 3. Enter your email address and API key from https://fleetcarrier.space. You can find or create your API key on https://fleetcarrier.space/my_carrier under the "Settings" tab on the right.
 4. Click OK to close the dialog and save your settings.
 
+# Use
+
+1. Start EDMC before you jump your fleet carrer, if not when you start playing **Elite: Dangerous**.
+2. Operate your fleet carrier as normal.
+3. The FCMS plug-in automatically updates https://fleetcarrier.space with your movements.
+
 See [LICENSE](LICENSE) for the license. There was no license included with the original source code.
 
 # Limitations
