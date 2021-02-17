@@ -22,5 +22,5 @@ See [LICENSE](LICENSE) for the license.
 
 # Limitations
 
-1. The plug-in assumes the commander name in https://fleetcarrier.space is there in game commander name. If they differ, modify line 156 in  the "journal_entry" method to modify the commander name.
-2. The discord integration for https://fleetcarrier.space specifies the source system for a carrier jump. However, this plug-in repots the system the commander was in when issuing the jump order, not the location of the carrier.
+1. The plug-in assumes the commander name in https://fleetcarrier.space is the in-game commander name. If the names differ, modify line 156 in  the "journal_entry" method to modify the commander name. Fix incoming.
+2. The discord integration for https://fleetcarrier.space specifies the source system for a carrier jump. However, this plug-in reports the system the commander was in when issuing the jump order. It does not report the carrier's current system.
