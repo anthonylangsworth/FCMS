@@ -1,6 +1,6 @@
 # Introduction
 
-Fleet Carrier Management System (FCMS) is an EDMC plug-in that automatically reports fleet carrier jumps to https://fleetcarrier.space. This tracks fleet carrier movements and locations, optionally back to a squadron Discord.
+Fleet Carrier Management System (FCMS) is an EDMC plug-in that automatically reports fleet carrier jumps to https://fleetcarrier.space. This website tracks fleet carrier movements and locations, optionally back to a squadron Discord.
 
 This is based off the Fuel Rats EDMC plug-in, given my inability to find their git repo. I am not the original author. I merely added an MSI installer and decluttered the main window display.
 
