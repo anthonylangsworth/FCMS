@@ -26,7 +26,7 @@ CONFIG_CMDR_NAMES = "fcms_cmdr_names"
 logger = logging.getLogger(f'{appname}.{os.path.basename(os.path.dirname(__file__))}')
 
 
-def plugin_start(plugin_dir:str) -> str:
+def plugin_start3(plugin_dir:str) -> str:
     if not config.get(CONFIG_CMDRS):
         # Migrate from single setting
         if config.get("FCMSEmail"):
@@ -41,10 +41,6 @@ def plugin_start(plugin_dir:str) -> str:
         config.set(CONFIG_CMDR_NAMES, config.get(CONFIG_CMDRS))
         
     return this.plugin_name
-
-
-def plugin_start3(plugin_dir:str) -> str:
-    return plugin_start(plugin_dir)
 
 
 def plugin_prefs(parent:nb.Notebook, cmdr: str, is_beta:bool) -> Optional[tk.Frame]:
