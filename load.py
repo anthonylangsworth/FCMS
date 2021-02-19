@@ -12,7 +12,7 @@ from ttkHyperlinkLabel import HyperlinkLabel
 
 this = sys.modules[__name__]
 this.plugin_name = "FCMS"
-this.plugin_url = "https://fleetcarrier.space/"
+this.plugin_url = "https://github.com/anthonylangsworth/FCMS"
 this.apikey_url = "https://fleetcarrier.space/my_carrier"
 this.version_info = (0, 2, 0)
 this.version = ".".join(map(str, this.version_info))
