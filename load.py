@@ -18,22 +18,29 @@ this.version_info = (0, 2, 0)
 this.version = ".".join(map(str, this.version_info))
 this.api_url = "https://fleetcarrier.space/api"
 
+CONFIG_CMDRS = "fcms_cmdrs"
 CONFIG_EMAIL = "fcms_emails"
+CONFIG_API_KEYS = "fcms_apikeys"
+CONFIG_CMDR_NAMES = "fcms_cmdr_names"
 
 # Setup logging
 logger = logging.getLogger(f'{appname}.{os.path.basename(os.path.dirname(__file__))}')
 
 
 def plugin_start(plugin_dir:str) -> str:
-    # Migrate from single setting
-    if not config.get("fcms_cmdrs"):
+    if not config.get(CONFIG_CMDRS):
+        # Migrate from single setting
         if config.get("FCMSEmail"):
             # first commander will get the old settings
-            config.set("fcms_emails", [config.get("FCMSEmail") or ""])
-            config.set("fcms_apikeys", [config.get("FCMSKey") or ""])
-            config.set("fcms_cmdr_names", [config.get("FCMSKey") or ""])
+            # CONFIG_CMDR_NAMES set in get_credentials when CMDR name known
+            config.set(CONFIG_EMAIL, [config.get("FCMSEmail") or ""])
+            config.set(CONFIG_API_KEYS, [config.get("FCMSKey") or ""])
         config.delete("FCMSEmail")
         config.delete("FCMSKey")
+    elif not config.get(CONFIG_CMDR_NAMES):
+        # Default the FCMS CMDR names to in-game CMDR names
+        config.set(CONFIG_CMDR_NAMES, config.get(CONFIG_CMDRS))
+        
     return this.plugin_name
 
 
@@ -78,7 +85,19 @@ def plugin_prefs(parent:nb.Notebook, cmdr: str, is_beta:bool) -> Optional[tk.Fra
     this.apikey = nb.Entry(this.cred_frame)
     this.apikey.grid(row=12, column=1, padx=PADX, pady=PADY, sticky=tk.EW)
 
-    prefs_cmdr_changed(cmdr, is_beta)
+    set_state_frame_childs(this.cred_frame, tk.NORMAL)
+    this.cmdr_text.delete(0, tk.END)
+    this.email.delete(0, tk.END)
+    this.apikey.delete(0, tk.END)
+    if cmdr:
+        cred = get_credentials(cmdr)
+        if cred:
+            this.cmdr_text.insert(0, cred[0])
+            this.email.insert(0, cred[1])
+            this.apikey.insert(0, cred[2])
+
+    if not cmdr or is_beta:
+        set_state_frame_childs(this.cred_frame, tk.DISABLED)
 
     return frame
 
@@ -91,65 +110,49 @@ def set_state_frame_childs(frame:tk.Frame, state):
             child["state"] = state
 
 
-def get_credentials(cmdr:str) -> Tuple[str, str, str]:
+def get_credentials(cmdr:str) -> Optional[Tuple[str, str, str]]:
+    """
+    Load the settings for the given commander as a tuple containing the (1) FCMS name, (2) email address and (3) API key.
+    Return None if there are no settings for that commander.
+    """
     # Credentials for cmdr
     if cmdr:
-        cmdrs = config.get("fcms_cmdrs")
+        cmdrs = config.get(CONFIG_CMDRS)
         if not cmdrs:
             # Migrate from single setting, first commander gets the old settings
             cmdrs = [cmdr]
-            config.set("fcms_cmdrs", cmdrs)
-        if not cmdr in cmdrs:
-            cmdrs.append(cmdr)
-        emails = config.get("fcms_emails") or [""] * len(cmdrs)
-        apikeys = config.get("fcms_apikeys") or [""] * len(cmdrs)
-        cmdr_names = config.get("fcms_cmdr_names") or [""] * len(emails)
-        if cmdr in cmdrs and emails and apikeys:
+            config.set(CONFIG_CMDRS, cmdrs)
+            config.set(CONFIG_CMDR_NAMES, cmdrs)
+        emails = config.get(CONFIG_EMAIL)
+        apikeys = config.get(CONFIG_API_KEYS)
+        cmdr_names = config.get(CONFIG_CMDR_NAMES)
+        if cmdr in cmdrs and emails and apikeys and cmdr_names:
             idx = cmdrs.index(cmdr)
-            if not cmdr_names[idx]:
-                cmdr_names[idx] = cmdr
             return (cmdr_names[idx], emails[idx], apikeys[idx])
     return None
 
-
-def prefs_cmdr_changed(cmdr:str, is_beta:bool) -> None:
-    set_state_frame_childs(this.cred_frame, tk.NORMAL)
-    this.cmdr_text.delete(0, tk.END)
-    this.email.delete(0, tk.END)
-    this.apikey.delete(0, tk.END)
-    if cmdr:
-        cred = get_credentials(cmdr)
-        if cred:
-            this.cmdr_text.insert(0, cred[0])
-            this.email.insert(0, cred[1])
-            this.apikey.insert(0, cred[2])
-    else:
-        this.cmdr_text.insert(0, _("None"))
-
-    if not cmdr or is_beta:
-        set_state_frame_childs(this.cred_frame, tk.DISABLED)
 
 # Preferences are saved in the registry at "HKEY_CURRENT_USER\SOFTWARE\Marginal\EDMarketConnector"
 
 def prefs_changed(cmdr:str, is_beta: bool) -> None:
     if cmdr and not is_beta:
-        cmdrs = config.get("fcms_cmdrs")
-        emails = config.get("fcms_emails") or [""] * len(cmdrs)
-        apikeys = config.get("fcms_apikeys") or [""] * len(cmdrs)
-        cmdr_names = config.get("fcms_cmdr_names") or [""] * len(cmdrs)
+        cmdrs = config.get(CONFIG_CMDRS)
+        cmdr_names = config.get(CONFIG_CMDR_NAMES) or [""] * len(cmdrs)
+        emails = config.get(CONFIG_EMAIL) or [""] * len(cmdrs)
+        apikeys = config.get(CONFIG_API_KEYS) or [""] * len(cmdrs)
         if cmdr in cmdrs:
             idx = cmdrs.index(cmdr)
+            cmdr_names[idx] = this.cmdr_text.get().strip()
             emails[idx] = this.email.get().strip()
             apikeys[idx] = this.apikey.get().strip()
-            cmdr_names[idx] = this.cmdr_text.get().strip()
         else:
-            config.set("fcms_cmdrs", cmdrs + [cmdr])
+            config.set(CONFIG_CMDRS, cmdrs + [cmdr])
+            cmdr_names.append(this.cmdr_text.get().strip())
             emails.append(this.email.get().strip())
             apikeys.append(this.apikey.get().strip())
-            cmdr_names.append(this.cmdr_text.get().strip())
-        config.set("fcms_emails", emails)
-        config.set("fcms_apikeys", apikeys)
-        config.set("fcms_cmdr_names", cmdr_names)
+        config.set(CONFIG_CMDR_NAMES, cmdr_names)
+        config.set(CONFIG_EMAIL, emails)
+        config.set(CONFIG_API_KEYS, apikeys)
 
 
 # See https://github.com/FuelRats/FCMS/blob/master/FCMS/views/api.py for server side of call.
