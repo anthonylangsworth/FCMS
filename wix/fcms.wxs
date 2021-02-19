@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="*" Name="Elite: Dangerous Minor Faction Activity Tracker (EDMFAT)" Language="1033" 
-            Version="0.2.0" Manufacturer="Anthony Langsworth"
+    <Product Id="*" Name="Elite: Dangerous Fleet Carrier Management System (FCMS) Plug-in" Language="1033" 
+            Version="0.3.0" Manufacturer="Anthony Langsworth"
             UpgradeCode="373e1e34-78d5-4657-93b8-2c028a8e9571">
         <Package InstallerVersion="200" Compressed="yes" Comments="Windows Installer Package"/>
         <Media Id="1" Cabinet="product.cab" EmbedCab="yes"/>
         <Upgrade Id="373e1e34-78d5-4657-93b8-2c028a8e9571">
-            <UpgradeVersion Minimum="0.2.0" OnlyDetect="yes" Property="NEWERVERSIONDETECTED"/>
-            <UpgradeVersion Minimum="0.0.0" Maximum="0.2.0" IncludeMinimum="yes" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED"/>
+            <UpgradeVersion Minimum="0.3.0" OnlyDetect="yes" Property="NEWERVERSIONDETECTED"/>
+            <UpgradeVersion Minimum="0.0.0" Maximum="0.3.0" IncludeMinimum="yes" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED"/>
         </Upgrade>
         <Condition Message="A newer version of this software is already installed.">NOT NEWERVERSIONDETECTED</Condition>
         <Property Id="ALLUSERS" Value="2" Secure="yes" />
