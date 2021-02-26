@@ -22,7 +22,7 @@ To configure (only needed once):
 1. Run EDMC.
 2. Open the "File" -> "Settings" menu. This opens the EDMC settings menu.
 3. Navigate to the "FCMS" tab. This shows settings for this plug-in.
-4. Enter your email address and API key from https://fleetcarrier.space. You can find or create your API key on https://fleetcarrier.space/my_carrier under the "Settings" tab on the right.
+4. Enter your commander name, email address and API key from https://fleetcarrier.space. You can find or create your API key on https://fleetcarrier.space/my_carrier under the "Settings" tab on the right.
 5. Click OK to close the dialog and save your settings.
 
 To use:
@@ -36,8 +36,7 @@ See [LICENSE](LICENSE) for the license. There was no license included with the o
 
 # Limitations
 
-1. The plug-in assumes the commander name in https://fleetcarrier.space is the in-game commander name. If the names differ, modify line 156 in  the "journal_entry" method to modify the commander name. Fix incoming.
-2. The discord integration for https://fleetcarrier.space specifies the source system for a carrier jump. However, this plug-in reports the system the commander was in when issuing the jump order. It does not report the carrier's current system.
+1. The discord integration for https://fleetcarrier.space specifies the source system for a carrier jump. However, this plug-in reports the system the commander was in when issuing the jump order. It does not report the carrier's current system.
 
 # Contributing and Development
 
