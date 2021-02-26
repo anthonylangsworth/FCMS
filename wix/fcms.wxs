@@ -14,7 +14,6 @@
         <Property Id="MSIINSTALLPERUSER" Value="1" Secure="yes" />
         <Property Id="ARPURLINFOABOUT" Value="https://github.com/anthonylangsworth/FCMS"/>
         <Property Id="ARPNOREPAIR" Value="1"/>
-        <Property Id="ARPNOMODIFY" Value="1"/>
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="LocalAppDataFolder" >
                 <Directory Id="EDMarketConnectorFolder" Name="EDMarketConnector">
@@ -42,5 +41,7 @@
         <Feature Id="DefaultFeature" Level="1">
             <ComponentRef Id="load.py" />
         </Feature>
+        <WixVariable Id="WixUILicenseRtf" Value="wix\gpl-3.0.rtf" />
+        <UIRef Id="WixUI_Minimal" />
     </Product>
 </Wix>
