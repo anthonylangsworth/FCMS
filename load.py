@@ -3,11 +3,13 @@ import requests
 import logging
 import tkinter as tk
 import os
-from typing import Tuple, Optional, Dict, Any
+from typing import Tuple, Optional, Dict, Any, Union
 
 import myNotebook as nb
 from config import config, appname
 from ttkHyperlinkLabel import HyperlinkLabel
+
+import web_services
 
 this = sys.modules[__name__]
 this.plugin_name = "FCMS"
@@ -41,6 +43,25 @@ def plugin_start3(plugin_dir:str) -> str:
         config.set(CONFIG_CMDR_NAMES, config.get(CONFIG_CMDRS))
         
     return this.plugin_name
+
+# Called by EDMC to show plug-in details on EDMC main window
+def plugin_app(parent: tk.Frame) -> Union[tk.Widget, Tuple[tk.Widget, tk.Widget]]:
+    REPO_OWNER = "anthonylangsworth"
+    REPO = "FCMS"
+    NEW_RELEASE_AVAILABLE = "New FCMS release available"
+    BACKGROUND = tk.Label().cget("background")
+
+    frame = None
+    try:
+        latest_release_url = web_services.get_newer_release(this.logger, REPO_OWNER, REPO, this.version)
+        frame = tk.Frame(parent)
+        if latest_release_url:
+            HyperlinkLabel(
+                frame, text=NEW_RELEASE_AVAILABLE, background=BACKGROUND, url=latest_release_url, underline=True
+            ).grid()
+    except Exception as e:
+        this.logger.error(f"Error getting latest version from github: {e}")
+    return frame
 
 
 def plugin_prefs(parent:nb.Notebook, cmdr: str, is_beta:bool) -> Optional[tk.Frame]:
