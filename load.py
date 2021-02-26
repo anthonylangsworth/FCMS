@@ -15,7 +15,7 @@ this = sys.modules[__name__]
 this.plugin_name = "FCMS"
 this.plugin_url = "https://github.com/anthonylangsworth/FCMS"
 this.apikey_url = "https://fleetcarrier.space/my_carrier"
-this.version_info = (0, 4, 0)
+this.version_info = (0, 3, 0)
 this.version = ".".join(map(str, this.version_info))
 this.api_url = "https://fleetcarrier.space/api"
 
@@ -53,7 +53,7 @@ def plugin_app(parent: tk.Frame) -> Union[tk.Widget, Tuple[tk.Widget, tk.Widget]
 
     frame = None
     try:
-        latest_release_url = web_services.get_newer_release(this.logger, REPO_OWNER, REPO, this.version)
+        latest_release_url = web_services.get_newer_release(logger, REPO_OWNER, REPO, this.version_info)
         frame = tk.Frame(parent)
         if latest_release_url:
             HyperlinkLabel(
