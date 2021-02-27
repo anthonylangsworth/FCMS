@@ -9,6 +9,10 @@ import myNotebook as nb
 from config import config, appname
 from ttkHyperlinkLabel import HyperlinkLabel
 
+if _ is None:
+    def _(s):
+        return s
+
 import fcms_web_services
 
 this = sys.modules[__name__]
