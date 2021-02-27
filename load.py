@@ -9,7 +9,7 @@ import myNotebook as nb
 from config import config, appname
 from ttkHyperlinkLabel import HyperlinkLabel
 
-import web_services
+import fcms_web_services
 
 this = sys.modules[__name__]
 this.plugin_name = "FCMS"
@@ -25,7 +25,7 @@ CONFIG_API_KEYS = "fcms_apikeys"
 CONFIG_CMDR_NAMES = "fcms_cmdr_names"
 
 # Setup logging
-logger = logging.getLogger(f'{appname}.{os.path.basename(os.path.dirname(__file__))}')
+this.logger = logging.getLogger(f'{appname}.{os.path.basename(os.path.dirname(__file__))}')
 
 
 def plugin_start3(plugin_dir:str) -> str:
@@ -44,6 +44,7 @@ def plugin_start3(plugin_dir:str) -> str:
         
     return this.plugin_name
 
+
 # Called by EDMC to show plug-in details on EDMC main window
 def plugin_app(parent: tk.Frame) -> Union[tk.Widget, Tuple[tk.Widget, tk.Widget]]:
     REPO_OWNER = "anthonylangsworth"
@@ -53,7 +54,7 @@ def plugin_app(parent: tk.Frame) -> Union[tk.Widget, Tuple[tk.Widget, tk.Widget]
 
     frame = None
     try:
-        latest_release_url = web_services.get_newer_release(logger, REPO_OWNER, REPO, this.version_info)
+        latest_release_url = fcms_web_services.get_newer_release(this.logger, REPO_OWNER, REPO, this.version_info)
         if latest_release_url:
             frame = tk.Frame(parent)
             HyperlinkLabel(
@@ -190,11 +191,11 @@ def journal_entry(cmdr:str, is_beta:bool, system:Optional[str], station:Optional
             }
             response = requests.post(this.api_url, json=post)
             if response.status_code == 200:
-                logger.info(f"{ entry['event']} event posted to FCMS")
+                this.logger.info(f"{ entry['event']} event posted to FCMS")
             else:
-                logger.info(f"{ entry['event']} event posting to FCMS failed: { str(response.status_code) }")
+                this.logger.info(f"{ entry['event']} event posting to FCMS failed: { str(response.status_code) }")
                 result = f"{this.plugin_name}: Error updating FCMS. Check CMDR name."
         else:
-            logger.error("No credentials")
+            this.logger.error("No credentials")
             result = f"{this.plugin_name}: Add credentials."
     return result

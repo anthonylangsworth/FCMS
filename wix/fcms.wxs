@@ -32,6 +32,12 @@
                     <RemoveFolder Id="RemoveFCMSPycacheFolder" Directory="FCMSPyCacheFolder" On="uninstall" />
                     <RemoveFile Id="RemoveFCMSPycacheFiles" Directory="FCMSPyCacheFolder"  Name="*" On="uninstall" />
                 </Component>
+                <Component Id="fcms_web_services.py" Guid="8968f88d-1011-4e1d-8f68-c3e97fdb4944">
+                    <File Id="fcms_web_services.py" Source="..\fcms_web_services.py"/>
+                    <RegistryValue Root="HKCU" Key="Software\EDMFAT\EDMFAT\fmcs_web_services.py"
+                        Type="string" Value="Installed" KeyPath="yes" />
+                    <RemoveFile Id="RemoveFcmsWebServicesFile" Name="fcms_web_services.py" On="uninstall" />
+                </Component>
                 <Directory Id="FCMSPyCacheFolder" Name="__pycache__" />
             </Directory>
         </DirectoryRef>
@@ -40,6 +46,7 @@
         </InstallExecuteSequence>        
         <Feature Id="DefaultFeature" Level="1">
             <ComponentRef Id="load.py" />
+            <ComponentRef Id="fcms_web_services.py" />
         </Feature>
         <WixVariable Id="WixUILicenseRtf" Value="wix\gpl-3.0.rtf" />
         <UIRef Id="WixUI_Minimal" />
