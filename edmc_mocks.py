@@ -16,13 +16,13 @@ except NameError:
     class Config():
         def __init__(self):
             self._dict = dict()
-        
-        def get(self, key:str) -> Any:
+
+        def get(self, key: str) -> Any:
             return self._dict.get(key, None)
 
-        def set(self, key:str, value:Any) -> None:
+        def set(self, key: str, value: Any) -> None:
             self._dict[key] = value
 
-        def delete(self, key:str) -> None:
+        def delete(self, key: str) -> None:
             del self._dict[key]
     config = Config()

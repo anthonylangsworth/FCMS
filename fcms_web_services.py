@@ -2,8 +2,9 @@ import requests
 import logging
 from typing import Tuple, Callable, Optional
 
+
 # See https://docs.github.com/en/rest/reference/repos#get-the-latest-release
-def get_latest_release(logger: logging.Logger, owner:str, repo:str) -> Tuple[str, str]:
+def get_latest_release(logger: logging.Logger, owner: str, repo: str) -> Tuple[str, str]:
     """
     Get the latest github release for the given owner and repo. Returns a tuple containing the tag name and the HTML URL.
     """
@@ -20,11 +21,13 @@ def get_latest_release(logger: logging.Logger, owner:str, repo:str) -> Tuple[str
         logger.exception(f"Error getting latest version from github: {e}")
         raise
 
+
 def split_tag(tag:str) -> Tuple[int]:
     return tuple(map(int, tag.lstrip("v").split(".")))
 
-def get_newer_release(logger: logging.Logger, owner:str, repo:str, current_version:Tuple,
-        get_latest_release_callable:Callable[[logging.Logger, str, str], Tuple[str, str]] = get_latest_release) -> Optional[str]:
+
+def get_newer_release(logger: logging.Logger, owner: str, repo: str, current_version: Tuple,
+                      get_latest_release_callable: Callable[[logging.Logger, str, str], Tuple[str, str]] = get_latest_release) -> Optional[str]:
     """
     Get the URL of the most recent release for the given open and repo if it is a later version than current_version. Otherwise, return None.
     """

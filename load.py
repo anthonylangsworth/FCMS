@@ -31,7 +31,7 @@ CONFIG_CMDR_NAMES = "fcms_cmdr_names"
 this.logger = logging.getLogger(f'{appname}.{os.path.basename(os.path.dirname(__file__))}')
 
 
-def plugin_start3(plugin_dir:str) -> str:
+def plugin_start3(plugin_dir: str) -> str:
     if not config.get(CONFIG_CMDRS):
         # Migrate from single setting
         if config.get("FCMSEmail"):
@@ -44,7 +44,7 @@ def plugin_start3(plugin_dir:str) -> str:
     elif not config.get(CONFIG_CMDR_NAMES):
         # Default the FCMS CMDR names to in-game CMDR names
         config.set(CONFIG_CMDR_NAMES, config.get(CONFIG_CMDRS))
-        
+
     return this.plugin_name
 
 
@@ -68,7 +68,7 @@ def plugin_app(parent: tk.Frame) -> Union[tk.Widget, Tuple[tk.Widget, tk.Widget]
     return frame
 
 
-def plugin_prefs(parent:nb.Notebook, cmdr: str, is_beta:bool) -> Optional[tk.Frame]:
+def plugin_prefs(parent: nb.Notebook, cmdr: str, is_beta:bool) -> Optional[tk.Frame]:
 
     PADX = 10
     PADY = 2
@@ -122,7 +122,7 @@ def plugin_prefs(parent:nb.Notebook, cmdr: str, is_beta:bool) -> Optional[tk.Fra
     return frame
 
 
-def set_state_frame_childs(frame:tk.Frame, state):
+def set_state_frame_childs(frame: tk.Frame, state):
     for child in frame.winfo_children():
         if child.winfo_class() in ("TFrame", "Frame", "Labelframe"):
             set_state_frame_childs(child, state)
@@ -130,7 +130,7 @@ def set_state_frame_childs(frame:tk.Frame, state):
             child["state"] = state
 
 
-def get_credentials(cmdr:str) -> Optional[Tuple[str, str, str]]:
+def get_credentials(cmdr: str) -> Optional[Tuple[str, str, str]]:
     """
     Load the settings for the given commander as a tuple containing the (1) FCMS name, (2) email address and (3) API key.
     Return None if there are no settings for that commander.
@@ -154,7 +154,7 @@ def get_credentials(cmdr:str) -> Optional[Tuple[str, str, str]]:
 
 # Preferences are saved in the registry at "HKEY_CURRENT_USER\SOFTWARE\Marginal\EDMarketConnector"
 
-def prefs_changed(cmdr:str, is_beta: bool) -> None:
+def prefs_changed(cmdr: str, is_beta: bool) -> None:
     if cmdr and not is_beta:
         cmdrs = config.get(CONFIG_CMDRS)
         cmdr_names = config.get(CONFIG_CMDR_NAMES) or [""] * len(cmdrs)
@@ -178,7 +178,7 @@ def prefs_changed(cmdr:str, is_beta: bool) -> None:
 # See https://github.com/FuelRats/FCMS/blob/master/FCMS/views/api.py for server side of call.
 # See https://www.w3schools.com/python/ref_requests_response.asp for response help
 
-def journal_entry(cmdr:str, is_beta:bool, system:Optional[str], station:Optional[str], entry:Dict[str, Any], stateentry:Dict[str, Any]) -> Optional[str]:
+def journal_entry(cmdr: str, is_beta: bool, system: Optional[str], station: Optional[str], entry: Dict[str, Any], stateentry: Dict[str, Any]) -> Optional[str]:
     result = None
     if entry["event"] in ["CarrierJumpRequest", "CarrierJumpCancelled"] and not is_beta:
         cred = get_credentials(cmdr)
