@@ -1,5 +1,5 @@
 set dest=%userprofile%\AppData\Local\EDMarketConnector\plugins\FCMS
-rd /s /q %dest% || goto error
+rd /s /q %dest%
 mkdir %dest% || goto error
 xcopy /y load.py %dest% || goto error
 xcopy /y fcms_web_services.py %dest% || goto error
