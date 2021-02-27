@@ -1,2 +1,2 @@
 # Exclude the EULA file
-*.rtf linguist-vendored=false
+wix/gpl-3.0.rtf linguist-vendored
