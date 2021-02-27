@@ -9,7 +9,9 @@ import myNotebook as nb
 from config import config, appname
 from ttkHyperlinkLabel import HyperlinkLabel
 
-if _ is None:
+try:
+    _("a")
+except NameError:
     def _(s):
         return s
 
