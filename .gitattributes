@@ -1,2 +1,2 @@
 # Exclude the EULA file
-gpl-3.0.rtf linguist-vendored=false
+*.rtf linguist-vendored=false
