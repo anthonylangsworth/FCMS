@@ -68,7 +68,7 @@ def plugin_app(parent: tk.Frame) -> Union[tk.Widget, Tuple[tk.Widget, tk.Widget]
     return frame
 
 
-def plugin_prefs(parent: nb.Notebook, cmdr: str, is_beta:bool) -> Optional[tk.Frame]:
+def plugin_prefs(parent: nb.Notebook, cmdr: str, is_beta: bool) -> Optional[tk.Frame]:
 
     PADX = 10
     PADY = 2
