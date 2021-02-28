@@ -192,12 +192,12 @@ def journal_entry(cmdr: str, is_beta: bool, system: Optional[str], station: Opti
                 "user": cred[1],
                 "key": cred[2],
             }
-            response = requests.post(this.api_url, json=post)
-            if response.status_code == 200:
-                this.logger.info(f"{ entry['event']} event posted to FCMS")
-            else:
-                this.logger.info(f"{ entry['event']} event posting to FCMS failed: { str(response.status_code) }")
-                result = f"{this.plugin_name}: Error updating FCMS. Check CMDR name."
+            with requests.post(this.api_url, json=post) as response:
+                if response.status_code == 200:
+                    this.logger.info(f"{ entry['event']} event posted to FCMS")
+                else:
+                    this.logger.info(f"{ entry['event']} event posting to FCMS failed: { str(response.status_code) }")
+                    result = f"{this.plugin_name}: Error updating FCMS. Check CMDR name."
         else:
             this.logger.error("No credentials")
             result = f"{this.plugin_name}: Add credentials."

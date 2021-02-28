@@ -10,13 +10,13 @@ def get_latest_release(logger: logging.Logger, owner: str, repo: str) -> Tuple[s
     """
     URL = f"https://api.github.com/repos/{owner}/{repo}/releases/latest"
     try:
-        response = requests.get(URL, headers={"accept": "application/vnd.github.v3+json"}, timeout=30)
-        if response.status_code == 200:
-            output = response.json()
-            logger.info(f"Latest version for {owner}/{repo} is '{output['tag_name']}' at '{output['html_url']}'")
-            return (output["tag_name"], output["html_url"])
-        else:
-            response.raise_for_status()
+        with requests.get(URL, headers={"accept": "application/vnd.github.v3+json"}, timeout=30) as response:
+            if response.status_code == 200:
+                output = response.json()
+                logger.info(f"Latest version for {owner}/{repo} is '{output['tag_name']}' at '{output['html_url']}'")
+                return (output["tag_name"], output["html_url"])
+            else:
+                response.raise_for_status()
     except Exception as e:
         logger.exception(f"Error getting latest version from github: {e}")
         raise
