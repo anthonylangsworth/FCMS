@@ -5,9 +5,13 @@ import tkinter as tk
 import os
 from typing import Tuple, Optional, Dict, Any, Union
 
-import myNotebook as nb
-from config import config, appname
-from ttkHyperlinkLabel import HyperlinkLabel
+# Prevent linting errors with _() and, hopefully, enable better automaed unit testing in the future
+try:
+    import myNotebook as nb
+    from config import config, appname
+    from ttkHyperlinkLabel import HyperlinkLabel
+except ImportError:
+    from edmc_mocks import *
 
 import fcms_web_services
 
