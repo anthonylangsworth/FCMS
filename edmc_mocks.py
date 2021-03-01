@@ -1,3 +1,4 @@
+# Work in progress!
 # Mock EDMC-provided functionality to:
 # 1. Stop `flake8` flagging errors.
 # 2. Allow unit testing.
