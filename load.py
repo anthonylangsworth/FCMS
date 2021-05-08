@@ -146,7 +146,7 @@ def get_credentials(cmdr: str) -> Optional[Tuple[str, str, str]]:
             config.set(CONFIG_CMDR_NAMES, cmdrs)
         emails = config.get_list(CONFIG_EMAIL)
         apikeys = config.get_list(CONFIG_API_KEYS)
-        cmdr_names = config.get_str(CONFIG_CMDR_NAMES)
+        cmdr_names = config.get_list(CONFIG_CMDR_NAMES)
         if cmdr in cmdrs and emails and apikeys and cmdr_names:
             idx = cmdrs.index(cmdr)
             return (cmdr_names[idx], emails[idx], apikeys[idx])
