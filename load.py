@@ -33,18 +33,18 @@ this.logger = logging.getLogger(f'{appname}.{os.path.basename(os.path.dirname(__
 
 
 def plugin_start3(plugin_dir: str) -> str:
-    if not config.get(CONFIG_CMDRS):
+    if not config.get_list(CONFIG_CMDRS):
         # Migrate from single setting
-        if config.get("FCMSEmail"):
+        if config.get_str("FCMSEmail"):
             # first commander will get the old settings
             # CONFIG_CMDR_NAMES set in get_credentials when CMDR name known
-            config.set(CONFIG_EMAIL, [config.get("FCMSEmail") or ""])
-            config.set(CONFIG_API_KEYS, [config.get("FCMSKey") or ""])
+            config.set(CONFIG_EMAIL, [config.get_str("FCMSEmail") or ""])
+            config.set(CONFIG_API_KEYS, [config.get_str("FCMSKey") or ""])
         config.delete("FCMSEmail")
         config.delete("FCMSKey")
-    elif not config.get(CONFIG_CMDR_NAMES):
+    elif not config.get_list(CONFIG_CMDR_NAMES):
         # Default the FCMS CMDR names to in-game CMDR names
-        config.set(CONFIG_CMDR_NAMES, config.get(CONFIG_CMDRS))
+        config.set(CONFIG_CMDR_NAMES, config.get_str(CONFIG_CMDRS))
 
     return this.plugin_name
 
@@ -138,15 +138,15 @@ def get_credentials(cmdr: str) -> Optional[Tuple[str, str, str]]:
     """
     # Credentials for cmdr
     if cmdr:
-        cmdrs = config.get(CONFIG_CMDRS)
+        cmdrs = config.get_list(CONFIG_CMDRS)
         if not cmdrs:
             # Migrate from single setting, first commander gets the old settings
             cmdrs = [cmdr]
             config.set(CONFIG_CMDRS, cmdrs)
             config.set(CONFIG_CMDR_NAMES, cmdrs)
-        emails = config.get(CONFIG_EMAIL)
-        apikeys = config.get(CONFIG_API_KEYS)
-        cmdr_names = config.get(CONFIG_CMDR_NAMES)
+        emails = config.get_list(CONFIG_EMAIL)
+        apikeys = config.get_list(CONFIG_API_KEYS)
+        cmdr_names = config.get_str(CONFIG_CMDR_NAMES)
         if cmdr in cmdrs and emails and apikeys and cmdr_names:
             idx = cmdrs.index(cmdr)
             return (cmdr_names[idx], emails[idx], apikeys[idx])
@@ -157,10 +157,10 @@ def get_credentials(cmdr: str) -> Optional[Tuple[str, str, str]]:
 
 def prefs_changed(cmdr: str, is_beta: bool) -> None:
     if cmdr and not is_beta:
-        cmdrs = config.get(CONFIG_CMDRS)
-        cmdr_names = config.get(CONFIG_CMDR_NAMES) or [""] * len(cmdrs)
-        emails = config.get(CONFIG_EMAIL) or [""] * len(cmdrs)
-        apikeys = config.get(CONFIG_API_KEYS) or [""] * len(cmdrs)
+        cmdrs = config.get_list(CONFIG_CMDRS)
+        cmdr_names = config.get_list(CONFIG_CMDR_NAMES) or [""] * len(cmdrs)
+        emails = config.get_list(CONFIG_EMAIL) or [""] * len(cmdrs)
+        apikeys = config.get_list(CONFIG_API_KEYS) or [""] * len(cmdrs)
         if cmdr in cmdrs:
             idx = cmdrs.index(cmdr)
             cmdr_names[idx] = this.cmdr_text.get().strip()
