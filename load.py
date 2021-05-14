@@ -44,7 +44,7 @@ def plugin_start3(plugin_dir: str) -> str:
         config.delete("FCMSKey")
     elif not config.get_list(CONFIG_CMDR_NAMES):
         # Default the FCMS CMDR names to in-game CMDR names
-        config.set(CONFIG_CMDR_NAMES, config.get_str(CONFIG_CMDRS))
+        config.set(CONFIG_CMDR_NAMES, config.get_list(CONFIG_CMDRS))
 
     return this.plugin_name
 
