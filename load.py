@@ -40,8 +40,8 @@ def plugin_start3(plugin_dir: str) -> str:
             # CONFIG_CMDR_NAMES set in get_credentials when CMDR name known
             config.set(CONFIG_EMAIL, [config.get_str("FCMSEmail") or ""])
             config.set(CONFIG_API_KEYS, [config.get_str("FCMSKey") or ""])
-        config.delete("FCMSEmail")
-        config.delete("FCMSKey")
+            config.delete("FCMSEmail")
+            config.delete("FCMSKey")
     elif not config.get_list(CONFIG_CMDR_NAMES):
         # Default the FCMS CMDR names to in-game CMDR names
         config.set(CONFIG_CMDR_NAMES, config.get_list(CONFIG_CMDRS))
