@@ -18,11 +18,15 @@ To install:
 
 # Use
 
+First, create an account on https://fleetcarrier.space. You will need your commander name, email address and API key. You can find or create your API key on https://fleetcarrier.space/my_carrier under the "Settings" tab on the right, as shown below:
+
+![Fleetcarrier.space HOW-TO](doc/HOW-TO.png)
+
 To configure (only needed once):
 1. Run EDMC.
 2. Open the "File" -> "Settings" menu. This opens the EDMC settings menu.
 3. Navigate to the "FCMS" tab. This shows settings for this plug-in.
-4. Enter your commander name, email address and API key from https://fleetcarrier.space. You can find or create your API key on https://fleetcarrier.space/my_carrier under the "Settings" tab on the right.
+4. Enter your commander name, email address and API key from https://fleetcarrier.space. 
 5. Click OK to close the dialog and save your settings.
 
 To use:
