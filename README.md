@@ -18,7 +18,7 @@ To install:
 
 # Use
 
-First, create an account on https://fleetcarrier.space. You will need your commander name, email address and API key. You can find or create your API key on https://fleetcarrier.space/my_carrier under the "Settings" tab on the right, as shown below:
+First, create an account on https://fleetcarrier.space. Optionally, configure Discord integration for your squadron's Discord server. You will need your commander name, email address and API key. You can find or create your API key on https://fleetcarrier.space/my_carrier under the "Settings" tab on the right, as shown below:
 
 ![Fleetcarrier.space HOW-TO](doc/HOW-TO.png)
 
