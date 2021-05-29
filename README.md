@@ -7,7 +7,7 @@ This plug-in is based off the Fuel Rats EDMC plug-in written by Absolver for htt
 # Installation and Upgrade
 
 Requirements:
-1. Install [Elite Dangerous Market Connector (EDMC)](https://github.com/EDCD/EDMarketConnector/wiki/Installation-&-Setup) version 4.0 or later.
+1. Install [Elite Dangerous Market Connector (EDMC)](https://github.com/EDCD/EDMarketConnector/wiki/Installation-&-Setup) version 5.0 (Odyseey release) or later.
 2. Create an account on https://fleetcarrier.space.
 3. Purchase a fleet carrier in **Elite: Dangerous**.
 
