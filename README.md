@@ -1,3 +1,5 @@
+[![Github All Releases](https://img.shields.io/github/downloads/anthonylangsworth/FCMS/total.svg)]()
+
 # Introduction
 
 Fleet Carrier Management System (FCMS) is an EDMC plug-in that automatically reports fleet carrier jumps to https://fleetcarrier.space. This website tracks fleet carrier movements and locations, optionally back to a squadron Discord.
