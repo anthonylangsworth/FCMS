@@ -1,4 +1,5 @@
 [![Github All Releases](https://img.shields.io/github/downloads/anthonylangsworth/FCMS/total.svg)]()
+![Tests](https://github.com/anthonylangsworth/FCMS/actions/workflows/main.yml/badge.svg)
 
 # Introduction
 
