@@ -20,7 +20,7 @@ this = sys.modules[__name__]
 this.plugin_name = "FCMS"
 this.plugin_url = "https://github.com/anthonylangsworth/FCMS"
 this.apikey_url = "https://fleetcarrier.space/my_carrier"
-this.version_info = (0, 10, 0)
+this.version_info = (0, 11, 0)
 this.version = ".".join(map(str, this.version_info))
 this.api_url = "https://fleetcarrier.space/api"
 
