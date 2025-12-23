@@ -3,6 +3,7 @@ import requests
 import logging
 import tkinter as tk
 import os
+from l10n import translations as tr
 from typing import Tuple, Optional, Dict, Any, Union
 
 # Prevent linting errors with _() and, hopefully, enable better automaed unit testing in the future
@@ -94,19 +95,19 @@ def plugin_prefs(parent: nb.Notebook, cmdr: str, is_beta: bool) -> Optional[tk.F
         url=this.apikey_url, underline=True
     ).grid(row=1, columnspan=2, padx=PADX, sticky=tk.W)
 
-    nb.Label(this.cred_frame, text=_("Cmdr")).grid(row=10, padx=PADX, sticky=tk.W)
-    this.cmdr_text = nb.Entry(this.cred_frame)
+    nb.Label(this.cred_frame, text=tr.tl("Cmdr")).grid(row=10, padx=PADX, sticky=tk.W)
+    this.cmdr_text = nb.EntryMenu(this.cred_frame)
     this.cmdr_text.grid(row=10, column=1, padx=PADX, pady=PADY, sticky=tk.EW)
 
-    nb.Label(this.cred_frame, text=_("Email")).grid(row=11, padx=PADX, sticky=tk.W)
-    this.email = nb.Entry(this.cred_frame)
+    nb.Label(this.cred_frame, text=tr.tl("Email")).grid(row=11, padx=PADX, sticky=tk.W)
+    this.email = nb.EntryMenu(this.cred_frame)
     this.email.grid(row=11, column=1, padx=PADX, pady=PADY, sticky=tk.EW)
 
-    nb.Label(this.cred_frame, text=_("API Key")).grid(row=12, padx=PADX, sticky=tk.W)
-    this.apikey = nb.Entry(this.cred_frame)
+    nb.Label(this.cred_frame, text=tr.tl("API Key")).grid(row=12, padx=PADX, sticky=tk.W)
+    this.apikey = nb.EntryMenu(this.cred_frame)
     this.apikey.grid(row=12, column=1, padx=PADX, pady=PADY, sticky=tk.EW)
 
-    set_state_frame_childs(this.cred_frame, tk.NORMAL)
+    set_state_frame_children(this.cred_frame, tk.NORMAL)
     this.cmdr_text.delete(0, tk.END)
     this.email.delete(0, tk.END)
     this.apikey.delete(0, tk.END)
@@ -118,15 +119,15 @@ def plugin_prefs(parent: nb.Notebook, cmdr: str, is_beta: bool) -> Optional[tk.F
             this.apikey.insert(0, cred[2])
 
     if not cmdr or is_beta:
-        set_state_frame_childs(this.cred_frame, tk.DISABLED)
+        set_state_frame_children(this.cred_frame, tk.DISABLED)
 
     return frame
 
 
-def set_state_frame_childs(frame: tk.Frame, state):
+def set_state_frame_children(frame: tk.Frame, state):
     for child in frame.winfo_children():
         if child.winfo_class() in ("TFrame", "Frame", "Labelframe"):
-            set_state_frame_childs(child, state)
+            set_state_frame_children(child, state)
         else:
             child["state"] = state
 
@@ -195,9 +196,9 @@ def journal_entry(cmdr: str, is_beta: bool, system: Optional[str], station: Opti
             }
             with requests.post(this.api_url, json=post) as response:
                 if response.status_code == 200:
-                    this.logger.info(f"{ entry['event']} event posted to FCMS")
+                    this.logger.info(f"{entry['event']} event posted to FCMS")
                 else:
-                    this.logger.info(f"{ entry['event']} event posting to FCMS failed: { str(response.status_code) }")
+                    this.logger.info(f"{entry['event']} event posting to FCMS failed: {str(response.status_code)}")
                     result = f"{this.plugin_name}: Error updating FCMS. Check CMDR name."
         else:
             this.logger.error("No credentials")
