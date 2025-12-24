@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, '3.10']
+        python-version: ['3.13'] # Minimum version for EDMC 6.0 as per https://github.com/EDCD/EDMarketConnector/releases/tag/Release%2F6.0.0
 
     steps:
     - uses: actions/checkout@v2
