@@ -10,7 +10,7 @@ Fleet Carrier Management System (FCMS) is an EDMC plug-in that automatically rep
 # Installation and Upgrade
 
 Requirements:
-1. Install [Elite Dangerous Market Connector (EDMC)](https://github.com/EDCD/EDMarketConnector/wiki/Installation-&-Setup) version 6.0 or later. Older verions are not supported.
+1. Install [Elite Dangerous Market Connector (EDMC)](https://github.com/EDCD/EDMarketConnector/wiki/Installation-&-Setup) version 6.0 or later. Older versions are not supported.
 2. Create an account on https://fleetcarrier.space.
 3. Purchase a fleet carrier in **Elite: Dangerous**.
 
